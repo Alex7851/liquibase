@@ -1,0 +1,37 @@
+version: '3.7'
+services:
+  postgres_liquibase:
+    container_name: postgres_liquibase_cont
+    image: "postgres:15"
+    restart: 'no'
+    environment:
+      - POSTGRES_DB=version_db
+      - POSTGRES_USER=version_user
+      - POSTGRES_PASSWORD=version_password
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data    
+      - ./start_db_script:/docker-entrypoint-initdb.d/
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+        tag: "{{.ImageName}}|{{.Name}}"
+    ports:
+      - 5432:5432
+        
+
+  liquibase:
+    image: liquibase/liquibase:4.9.1
+    container_name: liquibase_cont
+    # depends_on:
+    #   postgres_liquibase:
+    #     condition: service_healthy
+    volumes:
+      - ./liquibase_changelog/:/liquibase/changelog/
+      - type: bind
+        source: ./liquibase_changelog/changelog.xml
+        target: /liquibase/changelog.xml
+
+    command: tail -f /dev/null
+    tty: true

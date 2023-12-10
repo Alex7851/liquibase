@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="create-table-mytest2" author="alex" runAlways="false" runOnChange="true">
+        <comment> Cоздание таблицы mytest</comment>
+        <sqlFile path="create_table_mytest.sql" relativeToChangelogFile="true" splitStatements="false"/>
+        <rollback>
+           <sqlFile path="rollback_create_table_mytest.sql" relativeToChangelogFile="true" splitStatements="false"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
